@@ -1,21 +1,46 @@
 # Drug Release Kinetics Analyzer
 
-A Python-based biomedical data analysis project for modeling and visualizing controlled drug-release profiles.
+A Python-based biomedical data analysis project for modeling and comparing controlled drug-release kinetics.
+
+![Drug Release Model Comparison](model_comparison.png)
 
 ## Overview
 
-Controlled drug-delivery systems are designed to release therapeutic compounds at a desired rate over time. This project analyzes simulated drug-release data and compares mathematical kinetic models to determine which model best describes the release profile.
+Controlled drug-delivery systems are designed to release therapeutic compounds at a desired rate over time. This project uses Python to analyze a simulated controlled-release dataset and compare mathematical models describing drug-release behavior.
 
-The project uses Python to clean and analyze time-series data, fit drug-release models, evaluate model performance, and visualize experimental and predicted release behavior.
+Three kinetic models were evaluated:
 
-## Objectives
+- Zero-order
+- First-order
+- Higuchi
 
-- Analyze time-dependent drug-release data
-- Visualize cumulative drug release over time
-- Fit zero-order, first-order, and Higuchi release models
-- Compare model performance using R² and RMSE
-- Estimate key release characteristics such as time to 50% release
-- Interpret the physical meaning of the fitted models
+Model performance was compared using the coefficient of determination (R²) and root mean squared error (RMSE).
+
+## Results
+
+| Model | R² | RMSE |
+|---|---:|---:|
+| Zero-order | 0.6303 | 19.48 |
+| First-order | **0.9993** | **0.85** |
+| Higuchi | 0.9685 | 5.69 |
+
+The **first-order model provided the best fit**, with an R² of 0.9993 and an RMSE of 0.85 percentage points.
+
+The fitted first-order model produced:
+
+- Maximum cumulative release: approximately **96.7%**
+- Release-rate constant: approximately **0.081 h⁻¹**
+- Estimated t50: **8.57 hours**
+
+## Analysis Workflow
+
+1. Loaded and inspected time-series drug-release data
+2. Visualized the cumulative release profile
+3. Implemented zero-order, first-order, and Higuchi kinetic models
+4. Fit model parameters using nonlinear curve fitting
+5. Calculated R² and RMSE for model comparison
+6. Estimated t50 from the best-fitting model
+7. Interpreted differences in model behavior
 
 ## Technologies
 
@@ -26,48 +51,17 @@ The project uses Python to clean and analyze time-series data, fit drug-release 
 - Matplotlib
 - Jupyter Notebook
 
-## Drug Release Models
+## Interpretation
 
-### Zero-Order Model
+The first-order model closely reproduced the simulated release profile and substantially outperformed the zero-order and Higuchi models.
 
-Drug is released at an approximately constant rate:
+The zero-order model assumes a constant release rate and therefore could not reproduce the plateau observed at later time points. The Higuchi model captured much of the early release behavior but showed greater deviation as cumulative release approached its maximum.
 
-Q(t) = Q₀ + k₀t
+Because this project uses simulated data, the results demonstrate the drug-release modeling and data-analysis workflow rather than conclusions about a real pharmaceutical formulation.
 
-### First-Order Model
+## Repository Contents
 
-Release rate depends on the amount of drug remaining:
-
-Q(t) = Q∞(1 - e^(-kt))
-
-### Higuchi Model
-
-Diffusion-controlled release is modeled as proportional to the square root of time:
-
-Q(t) = kH√t
-
-## Dataset
-
-The initial dataset used in this project is **simulated controlled drug-release data** created for educational and portfolio purposes.
-
-The dataset contains:
-
-- Time
-- Cumulative percentage of drug released
-
-A public experimental dataset may be incorporated in a future version of the project.
-
-## Planned Analysis
-
-1. Import and inspect the drug-release dataset
-2. Perform basic data validation and cleaning
-3. Visualize the release profile
-4. Fit kinetic release models
-5. Calculate R² and RMSE for each model
-6. Compare model performance
-7. Estimate release metrics such as t50
-8. Interpret the results
-
-## Project Status
-
-🚧 In progress
+- `drug_release_analysis.ipynb` — complete Python analysis and model fitting
+- `drug_release_data.csv` — simulated drug-release dataset
+- `model_comparison.png` — visualization of fitted kinetic models
+- `requirements.txt` — Python dependencies
